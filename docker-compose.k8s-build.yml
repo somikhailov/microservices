@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+
+  server:
+    image: somikhaylov/flask-k8s:v0.0.1
+    build:
+      context: ./services/server
+      dockerfile: Dockerfile
+
+  postgres:
+    image: somikhaylov/postgres-k8s:v0.0.1
+    build:
+      context: ./services/db
+      dockerfile: Dockerfile
+
+  client:
+    image: somikhaylov/vue-k8s:v0.0.1
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-k8s

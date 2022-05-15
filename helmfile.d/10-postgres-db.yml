@@ -1,0 +1,5 @@
+releases:
+- name: postgres-db
+  chart: ../helm-charts/postgres-db
+  version: 0.0.1
+  wait: true

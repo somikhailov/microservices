@@ -1,0 +1,14 @@
+releases:
+- name: flask-backend
+  chart: ../helm-charts/flask-backend
+  version: 0.0.1
+  wait: true
+  hooks:
+    - events:  ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:    ["exec", "deployments/flask", "--stdin", "--tty", "--", "python", "manage.py", "recreate_db"]
+    - events:  ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:    ["exec", "deployments/flask", "--stdin", "--tty", "--", "python", "manage.py", "seed_db"] 

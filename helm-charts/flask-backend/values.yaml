@@ -1,0 +1,7 @@
+replicaCount: 1
+
+image:
+  repository: somikhaylov/flask-k8s
+  tag: v0.0.1
+
+dnsName: app.somikhailov.fun
