@@ -18,4 +18,4 @@ services:
     image: somikhaylov/vue-k8s:v0.0.1
     build:
       context: ./services/client
-      dockerfile: Dockerfile-k8s
+      dockerfile: Dockerfile.k8s
