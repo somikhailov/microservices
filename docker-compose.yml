@@ -3,6 +3,7 @@ version: '3.8'
 services:
 
   server:
+    container_name: server
     image: somikhaylov/flask-k8s:v0.0.1
     build:
       context: ./services/server
@@ -18,6 +19,7 @@ services:
       - postgres
 
   postgres:
+    container_name: postgres
     image: somikhaylov/postgres-k8s:v0.0.1
     build:
       context: ./services/db
@@ -29,6 +31,7 @@ services:
       - POSTGRES_PASSWORD=postgres
 
   client:
+    container_name: client
     image: somikhaylov/vue-k8s:v0.0.1
     build:
       context: ./services/client

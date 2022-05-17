@@ -18,7 +18,7 @@ set variables
 
 ### For running local pipeline
 
-> for local rinning variables stores in `.secrets`
+> for local running variables stores in `.secrets`
 
 ```bash
 act
