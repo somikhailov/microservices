@@ -4,6 +4,11 @@
 
 This project contains simple microservice app, which deployed in kubernetes cluster with helm and helmfile. 
 
+## Diagram
+
+![web app scheme](/diagrams/microservices.png)
+
+
 ---
 ## Usage
 
