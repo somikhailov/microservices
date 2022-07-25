@@ -2,41 +2,53 @@ version: '3.8'
 
 services:
 
-  server:
-    container_name: server
-    image: somikhaylov/flask-k8s:v0.0.1
+  postgres-micro:
+    container_name: postgres-micro
+    image: somikhaylov/postgres-micro:latest
     build:
-      context: ./services/server
+      context: ./src/postgres-micro
       dockerfile: Dockerfile
     ports:
-      - 5001:5000
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      microservices:
+
+  flask-micro:
+    container_name: flask-micro
+    image: somikhaylov/flask-micro:latest
+    build:
+      context: ./src/flask-micro
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
     environment:
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
-      - postgres
+      - postgres-micro
+    networks:
+      microservices:
 
-  postgres:
-    container_name: postgres
-    image: somikhaylov/postgres-k8s:v0.0.1
+  vue-k8s:
+    container_name: vue-micro
+    image: somikhaylov/vue-micro:latest
     build:
-      context: ./services/db
+      context: ./src/vue-micro
       dockerfile: Dockerfile
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
-  client:
-    container_name: client
-    image: somikhaylov/vue-k8s:v0.0.1
-    build:
-      context: ./services/client
-      dockerfile: Dockerfile
+      args: 
+        - http://localhost:5000
     ports:
       - 8080:8080
     depends_on:
-      - server
+      - flask-micro
+    networks:
+      microservices:
+
+networks:
+  microservices:
+    name: microservices-network
