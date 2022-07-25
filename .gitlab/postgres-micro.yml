@@ -1,0 +1,16 @@
+build_postgres-micro:
+  extends: .registry_common
+  stage: build
+  script:
+    - docker build ./src/postgres-micro -t $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
+  # only:
+  #   changes:
+  #     - "microservices/src/frontend/**/*" 
+
+# deploy_frontend:
+#   extends: .kube_common
+#   stage: deploy
+#   when: manual
+#   script:
+#     - helm upgrade --install frontend microservices/deploy/charts/frontend --namespace shop --create-namespace

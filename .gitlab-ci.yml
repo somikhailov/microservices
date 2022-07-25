@@ -1,0 +1,27 @@
+stages:
+  - build
+  # - deploy
+
+.registry_common:
+  stage: build
+  image: docker:20.10.17
+  before_script:
+    - echo $CI_REGISTRY_TOKEN | docker login -u $CI_REGISTRY_USER --password-stdin
+  after_script:
+    - docker logout
+
+# .kube_common:
+#   stage: deploy
+#   image: dtzar/helm-kubectl
+#   variables:
+#     KUBE_CONFIG: $KUBE_CONFIG
+#   before_script:
+#     - mkdir -p ~/.kube
+#     - echo $KUBE_CONFIG | base64 -d > ~/.kube/config
+#   after_script:
+#     - rm -rf ~/.kube/config
+
+include:
+  - local: ".gitlab/postgres-micro.yml"
+  # - local: ".gitlab/flask-micro.yml"
+  # - local: ".gitlab/vue-micro.yml"
