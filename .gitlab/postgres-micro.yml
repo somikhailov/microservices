@@ -2,8 +2,10 @@ build_postgres-micro:
   extends: .registry_common
   stage: build
   script:
-    - docker build ./src/postgres-micro -t $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
+    - docker build ./src/postgres-micro -t $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_TAG
+  only:
+  - tags
   # only:
   #   changes:
   #     - "src/postgres-micro/**/*" 
