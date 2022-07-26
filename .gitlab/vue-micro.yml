@@ -5,3 +5,6 @@ build_vue-micro:
     - docker build ./src/vue-micro -t $CI_REGISTRY_USER/vue-micro:$CI_COMMIT_REF_NAME --build-arg API=$VUE_ROOT_API
     - docker push $CI_REGISTRY_USER/vue-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/vue-micro:latest
+  only:
+    changes:
+      - "src/vue-micro/**/*" 

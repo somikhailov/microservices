@@ -5,3 +5,6 @@ build_flask-micro:
     - docker build ./src/flask-micro -t $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/flask-micro:latest
+  only:
+    changes:
+      - "src/flask-micro/**/*" 
