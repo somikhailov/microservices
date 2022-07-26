@@ -1,0 +1,6 @@
+build_flask-micro:
+  extends: .registry_common
+  stage: build
+  script:
+    - docker build ./src/flask-micro -t $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME

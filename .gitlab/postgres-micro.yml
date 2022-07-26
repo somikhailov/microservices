@@ -6,7 +6,7 @@ build_postgres-micro:
     - docker push $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
   # only:
   #   changes:
-  #     - "microservices/src/frontend/**/*" 
+  #     - "src/postgres-micro/**/*" 
 
 # deploy_frontend:
 #   extends: .kube_common

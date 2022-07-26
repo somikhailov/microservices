@@ -23,5 +23,5 @@ stages:
 
 include:
   - local: ".gitlab/postgres-micro.yml"
-  # - local: ".gitlab/flask-micro.yml"
-  # - local: ".gitlab/vue-micro.yml"
+  - local: ".gitlab/flask-micro.yml"
+  - local: ".gitlab/vue-micro.yml"
