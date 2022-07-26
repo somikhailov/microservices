@@ -1,5 +1,0 @@
-releases:
-- name: vue-frontend
-  chart: ../helm-charts/vue-frontend
-  version: 0.0.1
-  wait: true

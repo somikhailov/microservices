@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: somikhaylov/vue-k8s
-  tag: v0.0.1
+  repository: somikhaylov/flask-micro
+  tag: latest
 
 dnsName: app.somikhailov.fun

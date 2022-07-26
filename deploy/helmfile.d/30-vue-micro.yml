@@ -1,0 +1,7 @@
+releases:
+- name: vue-micro
+  namespace: books
+  createNamespace: true
+  chart: ../helm-charts/vue-micro
+  version: 0.0.1
+  wait: true

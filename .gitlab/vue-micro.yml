@@ -1,10 +1,20 @@
-build_vue-micro:
+build_vue_micro:
   extends: .registry_common
   stage: build
   script:
-    - docker build ./src/vue-micro -t $CI_REGISTRY_USER/vue-micro:$CI_COMMIT_REF_NAME --build-arg API=$VUE_ROOT_API
+    - docker build ./src/vue-micro -t $CI_REGISTRY_USER/vue-micro:$CI_COMMIT_REF_NAME -t $CI_REGISTRY_USER/vue-micro:latest --build-arg API=http://${DNS_NAME}
     - docker push $CI_REGISTRY_USER/vue-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/vue-micro:latest
   only:
-    changes:
-      - "src/vue-micro/**/*" 
+    - tags
+
+deploy_vue_micro:
+  extends: .kube_common
+  stage: deploy
+  when: manual
+  needs:
+    - build_vue_micro
+  script:
+    - helm upgrade --install vue-micro deploy/helm-charts/vue-micro --namespace books --create-namespace --set image.tag=$CI_COMMIT_REF_NAME
+  only:
+    - tags

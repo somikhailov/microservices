@@ -1,10 +1,22 @@
-build_flask-micro:
+build_flask_micro:
   extends: .registry_common
   stage: build
   script:
-    - docker build ./src/flask-micro -t $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME
+    - docker build ./src/flask-micro -t $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME -t $CI_REGISTRY_USER/flask-micro:latest
     - docker push $CI_REGISTRY_USER/flask-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/flask-micro:latest
   only:
-    changes:
-      - "src/flask-micro/**/*" 
+    - tags
+
+deploy_flask_micro:
+  extends: .kube_common
+  stage: deploy
+  when: manual
+  needs:
+    - build_flask_micro
+  script:
+    - helm upgrade --install flask-micro deploy/helm-charts/flask-micro --namespace books --create-namespace --set image.tag=$CI_COMMIT_REF_NAME
+    - kubectl -n books exec deployments/flask-micro  --stdin --tty -- python manage.py recreate_db
+    - kubectl -n books exec deployments/flask-micro --stdin --tty -- python manage.py seed_db
+  only:
+    - tags

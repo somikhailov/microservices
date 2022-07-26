@@ -1,17 +1,20 @@
-build_postgres-micro:
+build_postgres_micro:
   extends: .registry_common
   stage: build
   script:
-    - docker build ./src/postgres-micro -t $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
+    - docker build ./src/postgres-micro -t $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME -t $CI_REGISTRY_USER/postgres-micro:latest
     - docker push $CI_REGISTRY_USER/postgres-micro:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_USER/postgres-micro:latest
   only:
-    changes:
-      - "src/postgres-micro/**/*" 
+    - tags
 
-# deploy_frontend:
-#   extends: .kube_common
-#   stage: deploy
-#   when: manual
-#   script:
-#     - helm upgrade --install frontend microservices/deploy/charts/frontend --namespace shop --create-namespace
+deploy_postgres-micro:
+  extends: .kube_common
+  stage: deploy
+  when: manual
+  needs:
+    - build_postgres_micro
+  script:
+    - helm upgrade --install postgres-micro deploy/helm-charts/postgres-micro --namespace books --create-namespace --set image.tag=$CI_COMMIT_REF_NAME
+  only:
+    - tags

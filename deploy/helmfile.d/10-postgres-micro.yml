@@ -1,0 +1,7 @@
+releases:
+- name: postgres-micro
+  namespace: books
+  createNamespace: true
+  chart: ../helm-charts/postgres-micro
+  version: 0.0.1
+  wait: true

@@ -1,6 +1,6 @@
 stages:
   - build
-  # - deploy
+  - deploy
 
 .registry_common:
   stage: build
@@ -10,16 +10,16 @@ stages:
   after_script:
     - docker logout
 
-# .kube_common:
-#   stage: deploy
-#   image: dtzar/helm-kubectl
-#   variables:
-#     KUBE_CONFIG: $KUBE_CONFIG
-#   before_script:
-#     - mkdir -p ~/.kube
-#     - echo $KUBE_CONFIG | base64 -d > ~/.kube/config
-#   after_script:
-#     - rm -rf ~/.kube/config
+.kube_common:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  variables:
+    KUBE_CONFIG: $KUBE_CONFIG
+  before_script:
+    - mkdir -p ~/.kube
+    - echo $KUBE_CONFIG | base64 -d > ~/.kube/config
+  after_script:
+    - rm -rf ~/.kube/config
 
 include:
   - local: ".gitlab/postgres-micro.yml"

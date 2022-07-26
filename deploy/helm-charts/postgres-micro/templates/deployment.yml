@@ -4,21 +4,21 @@ metadata:
   creationTimestamp: null
   labels:
     name: database
-  name: postgres
+  name: postgres-micro
 spec:
   progressDeadlineSeconds: 2147483647
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      service: postgres
+      service: postgres-micro
   template:
     metadata:
       creationTimestamp: null
       labels:
-        service: postgres
+        service: postgres-micro
     spec:
       containers:
-      - name: postgres
+      - name: postgres-micro
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         env:
           - name: POSTGRES_USER

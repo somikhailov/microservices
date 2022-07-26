@@ -1,0 +1,16 @@
+releases:
+- name: flask-micro
+  namespace: books
+  createNamespace: true
+  chart: ../helm-charts/flask-micro
+  version: 0.0.1
+  wait: true
+  hooks:
+    - events:  ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:    ["exec", "-n", "books", "deployments/flask-micro", "--stdin", "--tty", "--", "python", "manage.py", "recreate_db"]
+    - events:  ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:    ["exec", "-n", "books", "deployments/flask-micro", "--stdin", "--tty", "--", "python", "manage.py", "seed_db"] 

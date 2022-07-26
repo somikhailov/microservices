@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgres-micro
   labels:
-    service: postgres
+    service: postgres-micro
 spec:
   selector:
-    service: postgres
+    service: postgres-micro
   type: ClusterIP
   ports:
   - port: 5432

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: flask-ingress
+  name: flask-micro-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: flask
+            name: flask-micro
             port:
               number: 5000
