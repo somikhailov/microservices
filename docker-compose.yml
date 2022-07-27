@@ -16,18 +16,6 @@ services:
     networks:
       microservices:
 
-  postgres-exporter:
-    container_name: postgres-exporter
-    image: bitnami/postgres-exporter:latest
-    environment:
-      - DATA_SOURCE_NAME="postgresql://postgres:postgres@postgres-micro:5432/postgres?sslmode=disable"
-    ports:
-      - 9187:9187
-    depends_on:
-      - postgres-micro
-    networks:
-      microservices:
-
   flask-micro:
     container_name: flask-micro
     image: somikhaylov/flask-micro:latest

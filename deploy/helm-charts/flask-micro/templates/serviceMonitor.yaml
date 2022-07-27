@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flask-micro
+  labels:
+    service: flask-micro
+spec:
+  selector:
+    matchLabels:
+      service: flask-micro
+  endpoints:
+  - port: http

@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
+from prometheus_flask_exporter import PrometheusMetrics
 
 
 # instantiate the extensions
@@ -15,6 +16,9 @@ def create_app(script_info=None):
 
     # instantiate the app
     app = Flask(__name__)
+
+    # enable prometheus metrics
+    metrics = PrometheusMetrics(app)
 
     # enable CORS
     CORS(app)
