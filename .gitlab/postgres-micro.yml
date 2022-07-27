@@ -8,7 +8,7 @@ build_postgres_micro:
   only:
     - tags
 
-deploy_postgres-micro:
+deploy_postgres_micro:
   extends: .kube_common
   stage: deploy
   when: manual

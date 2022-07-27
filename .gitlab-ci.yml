@@ -1,6 +1,7 @@
 stages:
   - build
   - deploy
+  - post_deploy
 
 .registry_common:
   stage: build
@@ -25,3 +26,14 @@ include:
   - local: ".gitlab/postgres-micro.yml"
   - local: ".gitlab/flask-micro.yml"
   - local: ".gitlab/vue-micro.yml"
+
+load_dashboards:
+  stage: post_deploy
+  image: dwdraju/alpine-curl-jq
+  when: manual
+  script:
+    - |
+      curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "$(jq . dashboards/folder.json)" http://${GRAFANA_DNS_NAME}/api/folders
+      folder_uid=$(curl -s -X GET -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" http://${GRAFANA_DNS_NAME}/api/folders | jq '.[] .uid')
+      pg="{\"dashboard\": $(jq . dashboards/postgres-database.json), \"overwrite\": false, \"folderUid\": $folder_uid}"
+      curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "${pg}" http://${GRAFANA_DNS_NAME}/api/dashboards/db
