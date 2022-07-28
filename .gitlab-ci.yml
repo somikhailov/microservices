@@ -36,4 +36,8 @@ load_dashboards:
       curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "$(jq . dashboards/folder.json)" http://${GRAFANA_DNS_NAME}/api/folders
       folder_uid=$(curl -s -X GET -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" http://${GRAFANA_DNS_NAME}/api/folders | jq '.[] .uid')
       pg="{\"dashboard\": $(jq . dashboards/postgres-database.json), \"overwrite\": false, \"folderUid\": $folder_uid}"
+      flask="{\"dashboard\": $(jq . dashboards/flask.json), \"overwrite\": false, \"folderUid\": $folder_uid}"
+      nodejs="{\"dashboard\": $(jq . dashboards/nodejs.json), \"overwrite\": false, \"folderUid\": $folder_uid}"
       curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "${pg}" http://${GRAFANA_DNS_NAME}/api/dashboards/db
+      curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "${flask}" http://${GRAFANA_DNS_NAME}/api/dashboards/db
+      curl -X POST -H "Authorization: Bearer ${GRAFANA_TOKEN}" -H "Accept: application/json" -H "Content-Type: application/json" -d "${nodejs}" http://${GRAFANA_DNS_NAME}/api/dashboards/db
