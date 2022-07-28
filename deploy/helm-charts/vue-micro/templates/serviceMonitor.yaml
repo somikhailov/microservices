@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vue-micro
+  labels:
+    service: vue-micro
+spec:
+  selector:
+    matchLabels:
+      service: vue-micro
+  endpoints:
+  - port: http

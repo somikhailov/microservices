@@ -9,5 +9,6 @@ spec:
   selector:
     app: vue-micro
   ports:
-  - port: 8080
+  - name: http
+    port: 8080
     targetPort: 8080
